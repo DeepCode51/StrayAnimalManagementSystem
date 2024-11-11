@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ypf.mapper.TServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.ypf.pojo.TService" >
+    <id column="servicename" property="servicename" jdbcType="VARCHAR" />
+    <result column="servicepassword" property="servicepassword" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    servicename, servicepassword
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ypf.pojo.TServiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_service
+    where servicename = #{servicename,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_service
+    where servicename = #{servicename,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ypf.pojo.TServiceExample" >
+    delete from t_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ypf.pojo.TService" >
+    insert into t_service (servicename, servicepassword)
+    values (#{servicename,jdbcType=VARCHAR}, #{servicepassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ypf.pojo.TService" >
+    insert into t_service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="servicename != null" >
+        servicename,
+      </if>
+      <if test="servicepassword != null" >
+        servicepassword,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="servicename != null" >
+        #{servicename,jdbcType=VARCHAR},
+      </if>
+      <if test="servicepassword != null" >
+        #{servicepassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ypf.pojo.TServiceExample" resultType="java.lang.Integer" >
+    select count(*) from t_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_service
+    <set >
+      <if test="record.servicename != null" >
+        servicename = #{record.servicename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servicepassword != null" >
+        servicepassword = #{record.servicepassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_service
+    set servicename = #{record.servicename,jdbcType=VARCHAR},
+      servicepassword = #{record.servicepassword,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ypf.pojo.TService" >
+    update t_service
+    <set >
+      <if test="servicepassword != null" >
+        servicepassword = #{servicepassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where servicename = #{servicename,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ypf.pojo.TService" >
+    update t_service
+    set servicepassword = #{servicepassword,jdbcType=VARCHAR}
+    where servicename = #{servicename,jdbcType=VARCHAR}
+  </update>
+</mapper>

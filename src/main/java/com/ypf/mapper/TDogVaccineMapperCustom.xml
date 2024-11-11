@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ypf.mapper.TDogVaccineMapperCustom" >
+  
+  <resultMap id="BaseResultMap" type="com.ypf.vo.DogVaccineVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dogName" property="dogName" jdbcType="VARCHAR" />
+    <result column="dogKind" property="dogKind" jdbcType="VARCHAR" />
+    <result column="dogSex" property="dogSex" jdbcType="VARCHAR" />
+    <result column="dogAge" property="dogAge" jdbcType="VARCHAR" />
+    <result column="dogName" property="dogName" jdbcType="VARCHAR" />
+    <result column="dogVaccineName" property="dogVaccineName" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<resultMap id="BaseResultMap2" type="com.ypf.pojo.TVaccine" >
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="vaccine_name" property="vaccineName" jdbcType="VARCHAR" />
+	   <result column="vaccine_count" property="vaccineCount" jdbcType="INTEGER" />
+	</resultMap>
+
+  <select id="queryAllDogVaccineList" resultMap="BaseResultMap">
+   
+  	select dv.id as id,
+  	d.dog_name as dogName,d.dog_kind as dogKind,d.dog_sex as dogSex,d.dog_age as dogAge,
+    group_concat(v.vaccine_name) as dogVaccineName  	 
+  	from 
+  	t_dog_vaccine dv
+  		left join t_dog d on dv.dog_id = d.id
+  		left join t_vaccine v on dv.vaccine_id = v.id where v.id in(select tdv.vaccine_id from t_dog_vaccine tdv where tdv.dog_id = d.id)
+  	group by d.dog_name
+		order by dv.vaccine_time desc		
+  </select>	
+  
+  <select id="queryAllDogOfVaccineNameList" parameterType="Integer" resultMap="BaseResultMap2">
+  	select vaccine_name 
+  	from t_vaccine
+	where 
+	id in(select vaccine_id from t_dog_vaccine where dog_id = #{dogId})
+  </select>				
+
+</mapper>

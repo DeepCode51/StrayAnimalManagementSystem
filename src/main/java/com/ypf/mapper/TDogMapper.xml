@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ypf.mapper.TDogMapper" >
+  <resultMap id="BaseResultMap" type="com.ypf.pojo.TDog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dog_kind" property="dogKind" jdbcType="VARCHAR" />
+    <result column="dog_name" property="dogName" jdbcType="VARCHAR" />
+    <result column="adopt_state" property="adoptState" jdbcType="INTEGER" />
+    <result column="vaccination_status" property="vaccinationStatus" jdbcType="INTEGER" />
+    <result column="descrption" property="descrption" jdbcType="VARCHAR" />
+    <result column="face_image" property="faceImage" jdbcType="VARCHAR" />
+    <result column="dog_age" property="dogAge" jdbcType="INTEGER" />
+    <result column="dog_sex" property="dogSex" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, dog_kind, dog_name, adopt_state, vaccination_status, descrption, face_image, 
+    dog_age, dog_sex
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ypf.pojo.TDogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_dog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ypf.pojo.TDogExample" >
+    delete from t_dog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ypf.pojo.TDog" useGeneratedKeys="true" keyProperty="id">
+    insert into t_dog (id, dog_kind, dog_name, 
+      adopt_state, vaccination_status, descrption, 
+      face_image, dog_age, dog_sex
+      )
+    values (#{id,jdbcType=INTEGER}, #{dogKind,jdbcType=VARCHAR}, #{dogName,jdbcType=VARCHAR}, 
+      #{adoptState,jdbcType=INTEGER}, #{vaccinationStatus,jdbcType=INTEGER}, #{descrption,jdbcType=VARCHAR}, 
+      #{faceImage,jdbcType=VARCHAR}, #{dogAge,jdbcType=INTEGER}, #{dogSex,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ypf.pojo.TDog" >
+    insert into t_dog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dogKind != null" >
+        dog_kind,
+      </if>
+      <if test="dogName != null" >
+        dog_name,
+      </if>
+      <if test="adoptState != null" >
+        adopt_state,
+      </if>
+      <if test="vaccinationStatus != null" >
+        vaccination_status,
+      </if>
+      <if test="descrption != null" >
+        descrption,
+      </if>
+      <if test="faceImage != null" >
+        face_image,
+      </if>
+      <if test="dogAge != null" >
+        dog_age,
+      </if>
+      <if test="dogSex != null" >
+        dog_sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dogKind != null" >
+        #{dogKind,jdbcType=VARCHAR},
+      </if>
+      <if test="dogName != null" >
+        #{dogName,jdbcType=VARCHAR},
+      </if>
+      <if test="adoptState != null" >
+        #{adoptState,jdbcType=INTEGER},
+      </if>
+      <if test="vaccinationStatus != null" >
+        #{vaccinationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="descrption != null" >
+        #{descrption,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null" >
+        #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="dogAge != null" >
+        #{dogAge,jdbcType=INTEGER},
+      </if>
+      <if test="dogSex != null" >
+        #{dogSex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ypf.pojo.TDogExample" resultType="java.lang.Integer" >
+    select count(*) from t_dog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_dog
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogKind != null" >
+        dog_kind = #{record.dogKind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dogName != null" >
+        dog_name = #{record.dogName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adoptState != null" >
+        adopt_state = #{record.adoptState,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaccinationStatus != null" >
+        vaccination_status = #{record.vaccinationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.descrption != null" >
+        descrption = #{record.descrption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faceImage != null" >
+        face_image = #{record.faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dogAge != null" >
+        dog_age = #{record.dogAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogSex != null" >
+        dog_sex = #{record.dogSex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_dog
+    set id = #{record.id,jdbcType=INTEGER},
+      dog_kind = #{record.dogKind,jdbcType=VARCHAR},
+      dog_name = #{record.dogName,jdbcType=VARCHAR},
+      adopt_state = #{record.adoptState,jdbcType=INTEGER},
+      vaccination_status = #{record.vaccinationStatus,jdbcType=INTEGER},
+      descrption = #{record.descrption,jdbcType=VARCHAR},
+      face_image = #{record.faceImage,jdbcType=VARCHAR},
+      dog_age = #{record.dogAge,jdbcType=INTEGER},
+      dog_sex = #{record.dogSex,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ypf.pojo.TDog" >
+    update t_dog
+    <set >
+      <if test="dogKind != null" >
+        dog_kind = #{dogKind,jdbcType=VARCHAR},
+      </if>
+      <if test="dogName != null" >
+        dog_name = #{dogName,jdbcType=VARCHAR},
+      </if>
+      <if test="adoptState != null" >
+        adopt_state = #{adoptState,jdbcType=INTEGER},
+      </if>
+      <if test="vaccinationStatus != null" >
+        vaccination_status = #{vaccinationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="descrption != null" >
+        descrption = #{descrption,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null" >
+        face_image = #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="dogAge != null" >
+        dog_age = #{dogAge,jdbcType=INTEGER},
+      </if>
+      <if test="dogSex != null" >
+        dog_sex = #{dogSex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ypf.pojo.TDog" >
+    update t_dog
+    set dog_kind = #{dogKind,jdbcType=VARCHAR},
+      dog_name = #{dogName,jdbcType=VARCHAR},
+      adopt_state = #{adoptState,jdbcType=INTEGER},
+      vaccination_status = #{vaccinationStatus,jdbcType=INTEGER},
+      descrption = #{descrption,jdbcType=VARCHAR},
+      face_image = #{faceImage,jdbcType=VARCHAR},
+      dog_age = #{dogAge,jdbcType=INTEGER},
+      dog_sex = #{dogSex,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

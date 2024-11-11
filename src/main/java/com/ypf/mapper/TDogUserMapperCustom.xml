@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ypf.mapper.TDogUserMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.ypf.vo.AdoptRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="INTEGER" />
+    <result column="dogName" property="dogName" jdbcType="VARCHAR" />
+    <result column="dogKind" property="dogKind" jdbcType="VARCHAR" />
+    <result column="dogSex" property="dogSex" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="AdoptUser" type="com.ypf.vo.AdoptUserVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="dogName" property="dogName" jdbcType="VARCHAR" />
+    <result column="dogKind" property="dogKind" jdbcType="VARCHAR" />
+    <result column="dogSex" property="dogSex" jdbcType="VARCHAR" />
+    <result column="dogAge" property="dogAge" jdbcType="VARCHAR" />
+    <result column="faceImage" property="faceImage" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="queryAllAdoptRecordList" resultMap="BaseResultMap">
+  	select du.id as id,du.status as status,u.username as username,u.tel as tel,
+  	d.dog_name as dogName,d.dog_kind as dogKind,d.dog_sex as dogSex 
+  	from 
+  	t_dog_user du
+  		left join t_user u on du.user_id = u.id
+  		left join t_dog d on du.dog_id = d.id
+  	where du.type = 1	
+  </select>	
+  
+  <select id="queryAllAdoptUserList" resultMap="AdoptUser">
+  	select du.id as id,u.username as username,u.tel as tel,
+  	d.dog_name as dogName,d.dog_kind as dogKind,d.dog_sex as dogSex, 
+  	d.face_image as faceImage,d.dog_age as dogAge
+  	from 
+  	t_dog_user du
+  		left join t_user u on du.user_id = u.id
+  		left join t_dog d on du.dog_id = d.id
+  	where du.type = 2	
+  </select>				
+
+</mapper>
